@@ -15,7 +15,7 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/Details/:city" element={<Details />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/forecast/:lat/:lon" element={<Forecast />} />
+          <Route path="/forecast/:lat/:lon/:city" element={<Forecast />} />
         </Routes>
       </BrowserRouter>
     </div>

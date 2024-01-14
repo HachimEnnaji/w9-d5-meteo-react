@@ -1,6 +1,6 @@
 // Main.jsx
 import React, { useState } from "react";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 function Main() {
@@ -15,19 +15,21 @@ function Main() {
 
   return (
     <>
-      <Form onSubmit={handleSubmit}>
-        <input
-          className="w-75 rounded shadow ps-3"
-          placeholder="Search City"
-          type="text"
-          onChange={(e) => {
-            setCity(e.target.value);
-          }}
-        />
-        <Button variant="secondary" type="submit">
-          Search
-        </Button>
-      </Form>
+      <Container className="text-blur">
+        <Form onSubmit={handleSubmit}>
+          <input
+            className="w-75 rounded shadow ps-3"
+            placeholder="Search City"
+            type="text"
+            onChange={(e) => {
+              setCity(e.target.value);
+            }}
+          />
+          <Button variant="secondary" type="submit">
+            Search
+          </Button>
+        </Form>
+      </Container>
     </>
   );
 }

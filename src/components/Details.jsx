@@ -21,30 +21,32 @@ function Details() {
   const snow600 = "https://as1.ftcdn.net/v2/jpg/01/25/88/86/1000_F_125888672_dXvMzyajKbribAJj2tY2PMDfTnGydx76.jpg";
   const fog700 =
     "https://images.unsplash.com/photo-1578390986741-4e08df07e94b?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9nZ3klMjB3ZWF0aGVyfGVufDB8fDB8fHww";
-  const clear800 = "https://img.freepik.com/premium-photo/sunny-sky-with-clouds_87394-1064.jpg";
+  const clear800d = "https://img.freepik.com/premium-photo/sunny-sky-with-clouds_87394-1064.jpg";
+  const clear800n = "https://c4.wallpaperflare.com/wallpaper/996/262/558/sky-clouds-sun-light-wallpaper-preview.jpg";
   const cloud801 = "https://i.pinimg.com/originals/cb/6d/2c/cb6d2c974f71580b964c1f931e8b2aa3.jpg";
 
-  const getBackgroundImageUrl = (weatherId) => {
+  const getBackgroundImageUrl = ({ id, icon }) => {
     let backgroundImageUrl;
 
     // Confronto con l'ID del tempo per selezionare l'immagine di sfondo appropriata
-    if (weatherId >= 200 && weatherId <= 232) {
+    if (id >= 200 && id <= 232) {
       backgroundImageUrl = thunderstorm200;
-    } else if (weatherId >= 300 && weatherId <= 321) {
+    } else if (id >= 300 && id <= 321) {
       backgroundImageUrl = drizzle300;
-    } else if (weatherId >= 500 && weatherId <= 531) {
+    } else if (id >= 500 && id <= 531) {
       backgroundImageUrl = rain500;
-    } else if (weatherId >= 600 && weatherId <= 622) {
+    } else if (id >= 600 && id <= 622) {
       backgroundImageUrl = snow600;
-    } else if (weatherId >= 701 && weatherId <= 781) {
+    } else if (id >= 701 && id <= 781) {
       backgroundImageUrl = fog700;
-    } else if (weatherId === 800) {
-      backgroundImageUrl = clear800;
-    } else if (weatherId >= 801 && weatherId <= 804) {
+    } else if (id === 800) {
+      if (icon === "01d") {
+        backgroundImageUrl = clear800d;
+      } else {
+        backgroundImageUrl = clear800n;
+      }
+    } else if (id >= 801 && id <= 804) {
       backgroundImageUrl = cloud801;
-    } else {
-      // Default per gli altri casi
-      backgroundImageUrl = clear800;
     }
 
     return backgroundImageUrl;
@@ -72,7 +74,7 @@ function Details() {
 
         const secondData = await secondResponse.json();
         setAdditionalData(secondData);
-        const newBackgroundImageUrl = getBackgroundImageUrl(secondData.weather[0].id);
+        const newBackgroundImageUrl = getBackgroundImageUrl(secondData.weather[0]);
         setBackgroundImageUrl(newBackgroundImageUrl);
       } catch (error) {
         console.error("Errore durante la richiesta API:", error);
@@ -98,17 +100,17 @@ function Details() {
           style={{
             backgroundImage: `url(${backgroundImageUrl})`,
           }}
-          onClick={() => navigate(`/forecast/${cityData[0].lat}/${cityData[0].lon}`)}
+          onClick={() => navigate(`/forecast/${cityData[0].lat}/${cityData[0].lon}/${cityData[0].name}`)}
         >
           <Card.ImgOverlay>
-            <Card.Title className="text-start">
-              <h2>{additionalData.name}</h2>
+            <Card.Title className="text-start blur-text">
+              <h2>{cityData[0].name}</h2>
             </Card.Title>
-            <Card.Text className="fs-3 text-start">
+            <Card.Text className="fs-3 text-start blur-text">
               <TbTemperature size={40} /> {parseInt(additionalData.main?.temp)}
               <TbTemperatureCelsius size={30} />
             </Card.Text>
-            <Card.Text className="fs-3 text-start">
+            <Card.Text className="fs-3 text-start blur-text">
               <LuWind size={40} /> {additionalData.wind?.speed} <span>km/h</span>
             </Card.Text>
             <Card.Img
