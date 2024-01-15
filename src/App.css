@@ -94,6 +94,8 @@ div.carousel {
 div.forecast-format {
   background-color: rgba(89, 87, 87, 45%);
   border-radius: 15px;
+  max-width: 300px;
+  margin-inline: auto;
 }
 div.forecast-format h3,
 div.forecast-format h4 {
