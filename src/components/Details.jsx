@@ -1,11 +1,18 @@
 // Details.jsx
 import React, { useEffect, useState } from "react";
-import { Card, Row } from "react-bootstrap";
+import { Card, Row, Spinner } from "react-bootstrap";
 import { useLocation, Navigate, useNavigate } from "react-router-dom";
 import { TbTemperatureCelsius } from "react-icons/tb";
 import { LuWind } from "react-icons/lu";
 import { TbTemperature } from "react-icons/tb";
-function Details() {
+function Details({ handleCity }) {
+  const [place, setPlace] = useState({
+    name: "",
+    state: "",
+  });
+  const citySet = (data) => {
+    setPlace({ name: data.name, state: data.state });
+  };
   const location = useLocation();
   const navigate = useNavigate();
   const cityName = location.pathname.replace("/Details/", "");
@@ -40,6 +47,7 @@ function Details() {
     } else if (id >= 701 && id <= 781) {
       backgroundImageUrl = fog700;
     } else if (id === 800) {
+      // controllo la desinenza dell'icona se è d setto immagine di giorno altrimenti setto immagine di sera
       if (icon === "01d") {
         backgroundImageUrl = clear800d;
       } else {
@@ -63,6 +71,9 @@ function Details() {
 
         const data = await response.json();
         setCityData(data);
+        console.log(data);
+        // setPlace({ name: data[0]?.name, state: data[0]?.state });
+        citySet(data[0]);
 
         const secondResponse = await fetch(
           `https://api.openweathermap.org/data/2.5/weather?lat=${data[0].lat}&lon=${data[0].lon}&appid=${token}&units=metric`
@@ -89,7 +100,7 @@ function Details() {
     return <Navigate to="/not-found" />;
   }
   if (!cityData || !additionalData) {
-    return <h2 className="text-white">Caricamento...</h2>;
+    return <Spinner animation="grow" variant="success" />;
   }
 
   return (
@@ -100,7 +111,10 @@ function Details() {
           style={{
             backgroundImage: `url(${backgroundImageUrl})`,
           }}
-          onClick={() => navigate(`/forecast/${cityData[0].lat}/${cityData[0].lon}/${cityData[0].name}`)}
+          onClick={() => {
+            navigate(`/forecast/${cityData[0].lat}/${cityData[0].lon}/${cityData[0].name}`);
+            handleCity(place);
+          }}
         >
           <Card.ImgOverlay>
             <Card.Title className="text-start blur-text">
