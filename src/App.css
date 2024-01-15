@@ -70,7 +70,7 @@ img.card-image {
   object-fit: none;
 }
 div.background-city {
-  /* background: url(https://images3.alphacoders.com/958/958333.png); */
+  background: url(https://images3.alphacoders.com/958/958333.png);
   background-size: cover;
   background-repeat: no-repeat;
   /* background-position-y: 30%; */
