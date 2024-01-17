@@ -72,51 +72,53 @@ function Forecast({ place }) {
         const response = await fetch(
           `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${token}&units=metric`
         );
-
+        console.log(response);
         if (!response.ok) {
           throw new Error("Errore nella richiesta API");
         }
+        console.log(response);
 
         const data = await response.json();
         setForecastData(data);
+        // SERVER IN DOWN HANNO CHIUSO L'ENDPOINT
 
         // Fetch city background data
-        const cityResponse = await fetch(`https://api.teleport.org/api/cities/?search=${city}`);
-        if (!cityResponse.ok) {
-          throw new Error("Errore nella richiesta API città background: city");
-        }
+        // const cityResponse = await fetch(`https://api.teleport.org/api/cities/?search=${city}`);
+        // if (!cityResponse.ok) {
+        //   throw new Error("Errore nella richiesta API città background: city");
+        // }
+        // const citySearch = await cityResponse.json();
+        // if (citySearch.count === 0) {
+        //   setLoading(false);
+        //   setImageBackground("https://live.staticflickr.com/65535/50266501741_6781d3d936_b.jpg");
+        //   throw new Error("la città non è presente nell'api");
+        // }
+        // const cityId = citySearch._embedded["city:search-results"][0]._links["city:item"].href;
 
-        const citySearch = await cityResponse.json();
-        if (citySearch.count === 0) {
-          setLoading(false);
-          setImageBackground("https://live.staticflickr.com/65535/50266501741_6781d3d936_b.jpg");
-          throw new Error("la città non è presente nell'api");
-        }
-        const cityId = citySearch._embedded["city:search-results"][0]._links["city:item"].href;
+        // const secondResponse = await fetch(cityId);
+        // if (!secondResponse.ok) {
+        //   throw new Error("Errore nella richiesta API città background: geoNameId");
+        // }
 
-        const secondResponse = await fetch(cityId);
-        if (!secondResponse.ok) {
-          throw new Error("Errore nella richiesta API città background: geoNameId");
-        }
+        // const geoNameId = await secondResponse.json();
+        // // setFullNameCity(geoNameId.full_name);
 
-        const geoNameId = await secondResponse.json();
-        // setFullNameCity(geoNameId.full_name);
+        // const slug = geoNameId._links["city:urban_area"].href;
+        // const thirdResponse = await fetch(slug);
+        // if (!thirdResponse.ok) {
+        //   throw new Error("Errore nella richiesta API città background: slug");
+        // }
 
-        const slug = geoNameId._links["city:urban_area"].href;
-        const thirdResponse = await fetch(slug);
-        if (!thirdResponse.ok) {
-          throw new Error("Errore nella richiesta API città background: slug");
-        }
-
-        const dataImage = await thirdResponse.json();
-        setContinent(dataImage.continent);
-        console.log(dataImage._links["ua:images"].href);
-        const lastResponse = await fetch(dataImage._links["ua:images"].href);
-        if (!lastResponse.ok) {
-          throw new Error("Errore nella richiesta API città background: immagine");
-        }
-        const lastDataImage = await lastResponse.json();
-        setImageBackground(lastDataImage.photos[0].image.mobile);
+        // const dataImage = await thirdResponse.json();
+        // setContinent(dataImage.continent);
+        // console.log(dataImage._links["ua:images"].href);
+        // const lastResponse = await fetch(dataImage._links["ua:images"].href);
+        // if (!lastResponse.ok) {
+        //   throw new Error("Errore nella richiesta API città background: immagine");
+        // }
+        // const lastDataImage = await lastResponse.json();
+        // setImageBackground(lastDataImage.photos[0].image.mobile);
+        setImageBackground("https://live.staticflickr.com/65535/50266501741_6781d3d936_b.jpg");
         setLoading(false);
       } catch (error) {
         console.error("Errore durante la richiesta API:", error);
@@ -159,21 +161,6 @@ function Forecast({ place }) {
           </Carousel.Item>
         ))}
       </Carousel>
-
-      <Button
-        variant="secondary"
-        onClick={() => setOpen(!open)}
-        aria-controls="example-collapse-text"
-        aria-expanded={open}
-      >
-        Click for more informations
-      </Button>
-      <Collapse in={open}>
-        <div id="example-collapse-text">
-          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim
-          keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-        </div>
-      </Collapse>
     </Container>
   );
 }
