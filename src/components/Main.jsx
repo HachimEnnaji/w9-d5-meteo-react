@@ -1,30 +1,14 @@
 // Main.jsx
-import React, { useState } from "react";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Button, Container, Form } from "react-bootstrap";
+import UseCity from "../hooks/city.hook";
 
 function Main() {
-  const [city, setCity] = useState("");
-  const navigate = useNavigate();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Città cercata:", city);
-    navigate(`Details/${city}`);
-  };
-
+  const { handleSubmit, inputProps } = UseCity("");
   return (
     <>
       <Container className="text-blur">
         <Form onSubmit={handleSubmit}>
-          <input
-            className="w-75 rounded shadow ps-3"
-            placeholder="Search City"
-            type="text"
-            onChange={(e) => {
-              setCity(e.target.value);
-            }}
-          />
+          <input className="w-75 rounded shadow ps-3" placeholder="Search City" {...inputProps} type="text" />
           <Button variant="secondary" type="submit">
             Search
           </Button>

@@ -5,7 +5,9 @@ import { useLocation, Navigate, useNavigate } from "react-router-dom";
 import { TbTemperatureCelsius } from "react-icons/tb";
 import { LuWind } from "react-icons/lu";
 import { TbTemperature } from "react-icons/tb";
+// import UseFetch from "../hooks/fetch.hook";
 function Details({ handleCity }) {
+  // const { data, error, fetchData, loading } = UseFetch();
   const [place, setPlace] = useState({
     name: "",
     state: "",
@@ -134,17 +136,6 @@ function Details({ handleCity }) {
             />
           </Card.ImgOverlay>
         </Card>
-        {/* <Card
-          style={{
-            backgroundImage: `url(${`https://openweathermap.org/img/wn/${additionalData.weather[0].icon}@2x.png`})`,
-          }}
-        >
-          {" "}
-          <h2>Dettagli della città: {additionalData.name}</h2>
-          <h2>Temperatura minima: {additionalData.main.temp_min}</h2>
-          <h2>Umidità: {additionalData.main.humidity}</h2>
-          <img src={`https://openweathermap.org/img/wn/${additionalData.weather[0].icon}@2x.png`} alt="icon" />
-        </Card> */}
       </Row>
     </div>
   );

@@ -6,7 +6,7 @@ import Details from "./components/Details";
 import TitlePage from "./components/TitlePage";
 import NotFound from "./components/NotFound";
 import Forecast from "./components/Forecast";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 function App() {
   const [place, setPlace] = useState({
     name: "",
